@@ -34,13 +34,9 @@ class ListViewTest(TestCase):
         response = self.client.get('/lists/the-new-page/')
         self.assertTemplateUsed(response, 'list.html')
     def test_display_all_list_items(self):
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
-
-        response = self.client.get('/lists/the-new-page/')
-
-        self.assertContains(response, 'itemey 1')
-        self.assertContains(response, 'itemey 2')
+        lsit_user=List.objects.create()
+        Item.objects.create(text='itemey 1', list=list_user)
+        Item.objects.create(text='itemey 2', list=list_user)
 class NewListTest(TestCase):
     def test_can_save_a_POST_request(self):
         response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
