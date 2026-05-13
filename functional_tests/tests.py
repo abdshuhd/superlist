@@ -1,13 +1,18 @@
 from selenium import webdriver
+import os
 from selenium.webdriver.common.keys import Keys
 import time
 from selenium.webdriver.common.by import By
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import NoSuchElementException
 
+MAX_WAIT=10 #(1)
 class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser=webdriver.Chrome()
+        real_server=os.environ.get('SERVER_URL') #(1)
+        if real_server:
+            self.live_server_url='http://'+real_server #(2)
     def tearDown(self):
         self.browser.quit()
     def wait_for_row_in_list_table(self,row_text):
